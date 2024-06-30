@@ -336,6 +336,7 @@ public class RRAssetPlacer{
     private static double StrToDouble(String string) throws Exception{
         double f=0;
         double dec=0;
+        int decCount=0;
         boolean frac=false;
         if(string.length()==0){
             throw new Exception("Error while trying to parse a number: Empty Field");
@@ -354,6 +355,7 @@ public class RRAssetPlacer{
                 else{
                     dec*=10;
                     dec+=c-48;
+                    decCount++;
                 }
                 
             }
@@ -361,7 +363,7 @@ public class RRAssetPlacer{
                 throw new Exception("Error while trying to parse a number: Invalid Character");
             }
         }
-        while(dec>=1){
+        while(decCount-->0){
             dec*=0.1;
         }
         f+=dec;
