@@ -258,14 +258,14 @@ public class RRAssetPlacer{
             });
             pCPV.add(bATV,0);
         if(mode==0){
-            JButton bCFA = new JButton("Copy from Asset");
+            JButton bCFA = new JButton("Copy from A");
             bCFA.addActionListener((ActionEvent e) -> {
                 tfMX.setText(x.getText());
                 tfMY.setText(y.getText());
                 tfMZ.setText(z.getText());
             });
             pCPV.add(bCFA,1);
-            JButton bDFA = new JButton("Difference from Asset");
+            JButton bDFA = new JButton("Difference from A");
             bDFA.addActionListener((ActionEvent e) -> {
                 
                 try {
@@ -278,6 +278,23 @@ public class RRAssetPlacer{
                 
             });
             pCPV.add(bDFA,2);
+            JButton bAFA = new JButton("Angle from A");
+            bAFA.addActionListener((ActionEvent e) -> {
+                double rot =0;
+                try {
+                    rot= StrToDouble(((JTextField)(((JPanel)(((JPanel)(mainPanel.getComponent(0))).getComponent(3))).getComponent(4))).getText());
+                }
+                catch (Exception ex) {
+                    Error(new Exception(ex.toString()+"@Angle from Asset"));
+                }
+                rot = Math.toRadians(rot);
+                tfMX.setText(Double.toString(Math.sin(rot)));
+                tfMY.setText("0");
+                tfMZ.setText(Double.toString(Math.cos(rot)));
+                if(Math.abs(Math.sin(rot))<0.000001){tfMX.setText("0");}
+                if(Math.abs(Math.cos(rot))<0.000001){tfMZ.setText("0");}
+            });
+            pCPV.add(bAFA,3);
         }
         else if(mode==1){
             JButton bCPV = new JButton("Calculate perpendicular to first");
