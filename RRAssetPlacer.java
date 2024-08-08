@@ -180,6 +180,13 @@ public class RRAssetPlacer{
             pUN.add(lUN,0);
             pUN.add(tfUN,1);
         panel.add(pUN,8);
+        
+        JPanel pSI = new JPanel();
+            JLabel lSI = new JLabel("Start Index:");
+            JTextField tfSI = new JTextField("0",5);
+            pSI.add(lSI,0);
+            pSI.add(tfSI,1);
+        panel.add(pSI,9);
 
 
         return panel;
@@ -327,7 +334,7 @@ public class RRAssetPlacer{
             lHead.setHorizontalTextPosition(JLabel.LEFT);
         panel.add(lHead,0);
 
-        JPanel whut = new JPanel();
+        JPanel pRes1 = new JPanel();
             JButton bMake = new JButton("Make json");
             bMake.addActionListener((ActionEvent e) -> {
                 try{
@@ -337,15 +344,27 @@ public class RRAssetPlacer{
                     Error(new Exception(ex.toString()+"@Make json"));
                 }
             });
-            whut.add(bMake,0);
+            JButton bAddSI = new JButton("Add to Stat Index");
+            bAddSI.addActionListener((ActionEvent e) -> {
+                try{
+                    addToStartIndex(mainPanel);
+                }
+                catch(Exception ex){
+                    Error(new Exception(ex.toString()+"@Add to Start Index"));
+                }
+            });
+            pRes1.add(bMake,0);
+            pRes1.add(bAddSI,1);
+        
+        
 
-        JPanel whut2 = new JPanel();
+        JPanel pRes2 = new JPanel();
             JTextArea ta = new JTextArea(5,30);
-            whut2.add(ta,0);
+            pRes2.add(ta,0);
 
         panel.add(lHead,0);
-        panel.add(whut,1);
-        panel.add(whut2,2);
+        panel.add(pRes1,1);
+        panel.add(pRes2,2);
 
         return panel;
     }
@@ -507,6 +526,11 @@ public class RRAssetPlacer{
 
         String id = ((JTextField)((JPanel)p1.getComponent(7)).getComponent(1)).getText();
         String na = ((JTextField)((JPanel)p1.getComponent(8)).getComponent(1)).getText();
+        int si=0;
+        try{
+            si = (int)StrToDouble(((JTextField)((JPanel)p1.getComponent(9)).getComponent(1)).getText());
+            if(si<0)si=0;}
+        catch(Exception ex){throw new Exception(ex.toString()+"@StartIndex");}
 
         XM1*=ScM1;
         YM1*=ScM1;
@@ -520,11 +544,29 @@ public class RRAssetPlacer{
         for(int i=0;i<ReM1;i++){
             for(int j=0;j<ReM2;j++){
                 if(n!=0){s+=",\n";}
-                s+=generateAsset(na+dec(n), id, XPos+i*XM1+j*XM2, YPos+i*YM1+j*YM2, ZPos+i*ZM1+j*ZM2, XRot, YRot, ZRot, XSc, YSc, ZSc);
+                s+=generateAsset(na+dec(n+si), id, XPos+i*XM1+j*XM2, YPos+i*YM1+j*YM2, ZPos+i*ZM1+j*ZM2, XRot, YRot, ZRot, XSc, YSc, ZSc);
                 n++;
             }
         }
         ((JTextArea)((JPanel)p4.getComponent(2)).getComponent(0)).setText(s);
+    }
+    
+    private void addToStartIndex(JPanel mainPanel) throws Exception{
+        
+        int ReM1; int ReM2;
+        try{ReM1 = (int)StrToDouble(((JTextField)((JPanel)((JPanel)mainPanel.getComponent(1)).getComponent(2)).getComponent(4)).getText());
+            ReM2 = (int)StrToDouble(((JTextField)((JPanel)((JPanel)mainPanel.getComponent(2)).getComponent(2)).getComponent(4)).getText());}
+        catch(Exception ex){throw new Exception(ex.toString()+"@Repetitions");}
+        
+        JTextField tfSI = (JTextField)(((JPanel)((JPanel)mainPanel.getComponent(0)).getComponent(9)).getComponent(1));
+        
+        int si=0;
+        try{
+            si = (int)StrToDouble((tfSI).getText());
+            if(si<0)si=0;}
+        catch(Exception ex){throw new Exception(ex.toString()+"@StartIndex");}
+        
+        tfSI.setText(Integer.toString(si+(ReM1*ReM2)));
     }
 
     private static String dec(int n){
