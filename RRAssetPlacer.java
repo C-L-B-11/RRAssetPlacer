@@ -21,7 +21,7 @@ public class RRAssetPlacer{
 
     RRAssetPlacer(){
         JFrame mainFrame = new JFrame("RRAssetPlacer");
-        mainFrame.setSize(500,700);
+        mainFrame.setSize(550,750);
         mainFrame.setBackground(Color.DARK_GRAY);
         mainFrame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         mainFrame.setResizable(false);
@@ -53,7 +53,7 @@ public class RRAssetPlacer{
 
         JLabel lHead = new JLabel("Parameters of the first asset",JLabel.CENTER);
             lHead.setVerticalAlignment(JLabel.CENTER);
-            lHead.setHorizontalTextPosition(JLabel.LEFT);
+            lHead.setHorizontalTextPosition(JLabel.CENTER);
         panel.add(lHead,0);
 
         JPanel pPos = new JPanel();
@@ -183,7 +183,7 @@ public class RRAssetPlacer{
         
         JPanel pSI = new JPanel();
             JLabel lSI = new JLabel("Start Index:");
-            JTextField tfSI = new JTextField("0",5);
+            JTextField tfSI = new JTextField("0",3);
             pSI.add(lSI,0);
             pSI.add(tfSI,1);
         panel.add(pSI,9);
@@ -200,7 +200,7 @@ public class RRAssetPlacer{
 
         JLabel lHead = new JLabel(head,JLabel.CENTER);
             lHead.setVerticalAlignment(JLabel.CENTER);
-            lHead.setHorizontalTextPosition(JLabel.LEFT);
+            lHead.setHorizontalTextPosition(JLabel.CENTER);
         panel.add(lHead,0);
 
         JPanel pMov = new JPanel();
@@ -225,7 +225,7 @@ public class RRAssetPlacer{
             JLabel lTU = new JLabel("Direction Scaler:");
             JTextField tfTU = new JTextField("1",5);
             JLabel lTD = new JLabel("Repetitions:");
-            JTextField tfTD = new JTextField("1",5);
+            JTextField tfTD = new JTextField("1",2);
             bUS.addActionListener((ActionEvent e) -> {
                 try{
                     JTextField tx = (JTextField) pMov.getComponent(2);
@@ -252,7 +252,7 @@ public class RRAssetPlacer{
         panel.add(pMU,2);
 
         JPanel pCPV = new JPanel();
-        JButton bATV = new JButton("Add to Origin");
+        JButton bATV = new JButton("Add to f.A. pos.");
             bATV.addActionListener((ActionEvent e) -> {
                 try {
                     x.setText(Double.toString(StrToDouble(x.getText())+StrToDouble(tfMX.getText())*StrToDouble(tfTU.getText())));
@@ -265,14 +265,14 @@ public class RRAssetPlacer{
             });
             pCPV.add(bATV,0);
         if(mode==0){
-            JButton bCFA = new JButton("Copy from A");
+            JButton bCFA = new JButton("Copy from f.A.");
             bCFA.addActionListener((ActionEvent e) -> {
                 tfMX.setText(x.getText());
                 tfMY.setText(y.getText());
                 tfMZ.setText(z.getText());
             });
             pCPV.add(bCFA,1);
-            JButton bDFA = new JButton("Difference from A");
+            JButton bDFA = new JButton("Difference from f.A.");
             bDFA.addActionListener((ActionEvent e) -> {
                 
                 try {
@@ -285,7 +285,7 @@ public class RRAssetPlacer{
                 
             });
             pCPV.add(bDFA,2);
-            JButton bAFA = new JButton("Angle from A");
+            JButton bAFA = new JButton("Angle from f.A.");
             bAFA.addActionListener((ActionEvent e) -> {
                 double rot =0;
                 try {
@@ -304,7 +304,7 @@ public class RRAssetPlacer{
             pCPV.add(bAFA,3);
         }
         else if(mode==1){
-            JButton bCPV = new JButton("Calculate perpendicular to first");
+            JButton bCPV = new JButton("Calculate perpendicular to first axis");
             bCPV.addActionListener((ActionEvent e) -> {
                 try {
                     JTextField tfmX = (JTextField)((JPanel)((JPanel)mainPanel.getComponent(1)).getComponent(1)).getComponent(2);
@@ -322,8 +322,7 @@ public class RRAssetPlacer{
         return panel;
     }
     
-    private JPanel panelRes(JPanel mainPanel)
-    {
+    private JPanel panelRes(JPanel mainPanel){
         JPanel panel= new JPanel();
         panel.setBackground(Color.LIGHT_GRAY);
         panel.setLayout(new javax.swing.BoxLayout(
@@ -331,7 +330,7 @@ public class RRAssetPlacer{
 
         JLabel lHead = new JLabel("Result",JLabel.CENTER);
             lHead.setVerticalAlignment(JLabel.CENTER);
-            lHead.setHorizontalTextPosition(JLabel.LEFT);
+            lHead.setHorizontalTextPosition(JLabel.CENTER);
         panel.add(lHead,0);
 
         JPanel pRes1 = new JPanel();
@@ -344,7 +343,7 @@ public class RRAssetPlacer{
                     Error(new Exception(ex.toString()+"@Make json"));
                 }
             });
-            JButton bAddSI = new JButton("Add to Stat Index");
+            JButton bAddSI = new JButton("Add to Start Index");
             bAddSI.addActionListener((ActionEvent e) -> {
                 try{
                     addToStartIndex(mainPanel);
